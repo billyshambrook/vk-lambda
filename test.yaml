@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: foo-func
+  labels:
+    app: foo
+spec:
+  selector:
+    matchLabels:
+      app: foo
+  template:
+    metadata:
+      labels:
+        app: foo
+    spec:
+      containers:
+        - name: foo
+          image: 995144700286.dkr.ecr.us-east-1.amazonaws.com/pipeline:barfunction-61aba743ba53-latest
+          command:
+            - /var/task/pipeline
+          args:
+            - function
+            - split
+      tolerations:
+        - key: "virtual-kubelet.io/provider"
+          operator: "Equal"
+          value: "lambda"
+          effect: "NoSchedule"
